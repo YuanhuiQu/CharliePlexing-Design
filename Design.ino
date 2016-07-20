@@ -27,45 +27,40 @@ int c[5][4][2]=
 {
  { {LED1,LED2},{LED1,LED3},{LED1,LED4},{LED1,LED5} },
  { {LED2,LED3},{LED2,LED4},{LED2,LED5},{LED3,LED4} },
-{ {LED3,LED5},{LED4,LED5},{LED5,LED4},{LED5,LED3} },
-{ {LED4,LED3},{LED5,LED2},{LED4,LED2},{LED3,LED2} },
-{ {LED5,LED1},{LED4,LED1},{LED3,LED1},{LED2,LED1} }
-
+ { {LED3,LED5},{LED4,LED5},{LED5,LED4},{LED5,LED3} },
+ { {LED4,LED3},{LED5,LED2},{LED4,LED2},{LED3,LED2} },
+ { {LED5,LED1},{LED4,LED1},{LED3,LED1},{LED2,LED1} }
 };
-void setup()
-{pinMode(A_switch,INPUT_PULLUP);
-pinMode(B_switch,INPUT_PULLUP);
-pinMode(C_switch,INPUT_PULLUP);
-  pinMode(LED1,INPUT);
-  pinMode(LED2,INPUT);
-  pinMode(LED3,INPUT);
-    pinMode(LED4,INPUT);
-      pinMode(LED5,INPUT);
-      Initialize_Pins();   // configure I/O pins for normal operation
-  fadeValue = fadeValue_startup;
+void setup(){
+ pinMode(A_switch,INPUT_PULLUP);
+ pinMode(B_switch,INPUT_PULLUP);
+ pinMode(C_switch,INPUT_PULLUP);
+ pinMode(LED1,INPUT);
+ pinMode(LED2,INPUT);
+ pinMode(LED3,INPUT);
+ pinMode(LED4,INPUT);
+ pinMode(LED5,INPUT);
+ Initialize_Pins();   // configure I/O pins for normal operation
+ fadeValue = fadeValue_startup;
 }
 
-void light(int pins[2])
-{
-pinMode( pins[0], OUTPUT );
-  digitalWrite( pins[0], HIGH );
+void light(int pins[2]){
+ pinMode( pins[0], OUTPUT );
+ digitalWrite( pins[0], HIGH );
 
-  pinMode( pins[1], OUTPUT );
-  digitalWrite( pins[1], LOW );
-
+ pinMode( pins[1], OUTPUT );
+ digitalWrite( pins[1], LOW );
 }
 
-void test (int pins[2],int T)
-{
-  setup();
-  light(pins);
-  delay(T);
-    pinMode( pins[0], INPUT );
-  pinMode( pins[1], INPUT );
+void test (int pins[2],int T){
+ setup();
+ light(pins);
+ delay(T);
+ pinMode( pins[0], INPUT );
+ pinMode( pins[1], INPUT );
 }
  
-void loop()
-{
+void loop(){
   Output_to_LED(fadeValue,LED);  
   while (digitalRead(fade_switch) == LOW) {
     fadeValue = min(max(fadeValue+fadeValue_step,fadeValue_min),fadeValue_max);
@@ -86,7 +81,8 @@ void loop()
       test(c[i][j],T);
       if(i==4 && j==3){
         button2=digitalRead(B_switch);
-        if(button2==LOW){T=50;}
+        if(button2==LOW)
+          T=50;
         else{
           light(c[4][3]);
           T=200;
@@ -98,13 +94,17 @@ void loop()
       }
       if(i==4 && j==2){
         button2=digitalRead(B_switch);
-        if(button2==LOW){T=100;goto bailout1;}
-        else{  }
-         }
-        if(i==4 && j==1){
+        if(button2==LOW){
+          T=100;
+          goto bailout1;
+        }
+      }
+      if(i==4 && j==1){
         button2=digitalRead(B_switch);
-        if(button2==LOW){T=200;goto bailout1;}
-        else{  }  
+        if(button2==LOW){
+          T=200;
+          goto bailout1;
+        }
       }
     
      }
@@ -113,33 +113,38 @@ void loop()
   for( int i=4; i>=0; i-- ){
       for( int j=3; j>=0; j-- ){
       test(c[i][j],T);
-           if(i==0 && j==0){
+      if(i==0 && j==0){
         button1=digitalRead(A_switch);
-        if(button1==LOW){T=50;goto bailout2;}
+        if(button1==LOW){
+          T=50;
+          goto bailout2;
+        }
         else{
           light(c[0][0]);
           T=200;
           button3=digitalRead(C_switch);
           while(button3==HIGH){
-          button3=digitalRead(C_switch);
+            button3=digitalRead(C_switch);
           }
          }
       }
-            if(i==0 && j==1){
+    if(i==0 && j==1){
         button1=digitalRead(A_switch);
-        if(button1==LOW){T=100;goto bailout2;}
-        else{  }
-         }
-        if(i==0 && j==2){
+        if(button1==LOW){
+          T=100;
+          goto bailout2;
+        }
+    }
+    if(i==0 && j==2){
         button1=digitalRead(A_switch);
-        if(button1==LOW){T=200;goto bailout2;}
-        else{  }  
+        if(button1==LOW){
+         T=200;
+         goto bailout2;
+        }
       }
      }
    }  
-  
-    
- 
+
 }
 void Output_to_LED(int level, int LED_pin) {
 // Function to send PWM signal to LED_pin (0 <= level <= 255)
